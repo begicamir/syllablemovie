@@ -73,10 +73,10 @@ fun HomeScreen(
             .padding(it)){
             NavHost(navController = bottomNavController, startDestination = Screen.UpcomingMovieList.route ) {
                composable(Screen.PopularMovieList.route){
-                  // PopularMovieScreen()
+                  PopularMovieScreen(navHostController = navController, movieState = movieState, onEvent = movieListViewModel::onEvent )
                }
                composable(Screen.UpcomingMovieList.route){
-                  // UpcomingMovieScreen()
+                  UpcomingMovieScreen(navHostController = navController, movieState = movieState, onEvent = movieListViewModel::onEvent )
                }
             }
         }
