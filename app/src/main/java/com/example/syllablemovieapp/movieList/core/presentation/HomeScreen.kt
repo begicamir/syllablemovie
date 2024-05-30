@@ -20,6 +20,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -71,7 +73,7 @@ fun HomeScreen(
         Box(modifier = Modifier
             .fillMaxSize()
             .padding(it)){
-            NavHost(navController = bottomNavController, startDestination = Screen.UpcomingMovieList.route ) {
+            NavHost(navController = bottomNavController, startDestination = Screen.PopularMovieList.route ) {
                composable(Screen.PopularMovieList.route){
                   PopularMovieScreen(navHostController = navController, movieState = movieState, onEvent = movieListViewModel::onEvent )
                }
@@ -97,26 +99,31 @@ fun BottomNavigationBar(bottomNavController : NavHostController, onEvent : (Movi
            icon = Icons.Rounded.Upcoming)
         )
 
-    val selected = rememberSaveable{
-        mutableIntStateOf(0)
+
+
+    val selected = remember{
+        mutableStateOf(BottomItem1.Popular)
     }
 
     NavigationBar {
         Row(modifier = Modifier.background(MaterialTheme.colorScheme.inverseOnSurface)){
-            items.forEachIndexed {
+            BottomItem1.entries.forEachIndexed {
                 index, bottomItem ->
                 NavigationBarItem(
-                    selected = selected.intValue == index,
+                    selected = selected.value == bottomItem,
                     onClick = {
-                             selected.intValue = index
-                            when(selected.intValue){
-                                0 -> {
-                                    onEvent(MovieListEvent.Navigate)
+                             selected.value = bottomItem
+
+                            when(selected.value){
+
+
+                                BottomItem1.Popular -> {
+                                    onEvent(MovieListEvent.Navigate(bottomItem))
                                     bottomNavController.popBackStack()
                                     bottomNavController.navigate(Screen.PopularMovieList.route)
                                 }
-                                1 -> {
-                                    onEvent(MovieListEvent.Navigate)
+                                BottomItem1.Upcoming -> {
+                                    onEvent(MovieListEvent.Navigate(bottomItem))
                                     bottomNavController.popBackStack()
                                     bottomNavController.navigate(Screen.UpcomingMovieList.route)
 
@@ -138,3 +145,11 @@ data class BottomItem(
     val title : String,
     val icon : ImageVector
 )
+enum class BottomItem1( val title : String,
+                        val icon : ImageVector){
+    Popular (title = "Popular",
+        icon = Icons.Rounded.Movie),
+
+    Upcoming ( title = "Upcoming",
+    icon = Icons.Rounded.Upcoming)
+}
