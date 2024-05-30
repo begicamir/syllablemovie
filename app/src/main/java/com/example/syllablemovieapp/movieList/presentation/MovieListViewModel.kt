@@ -2,6 +2,7 @@ package com.example.syllablemovieapp.movieList.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.syllablemovieapp.movieList.core.presentation.BottomItem1
 import com.example.syllablemovieapp.movieList.domain.repository.MovieListRepository
 import com.example.syllablemovieapp.movieList.util.Category
 import com.example.syllablemovieapp.movieList.util.Resource
@@ -26,9 +27,10 @@ class MovieListViewModel @Inject constructor(
     }
     fun onEvent(event : MovieListEvent){
         when(event){
-            MovieListEvent.Navigate -> {
+
+            is MovieListEvent.Navigate -> {
                 _movieListState.update {
-                    it.copy(isCurrentPopularScreen = !movieListState.value.isCurrentPopularScreen)
+                    it.copy(isCurrentPopularScreen = event.bottomItem == BottomItem1.Popular)
                 }
             }
             is MovieListEvent.Paginate -> {

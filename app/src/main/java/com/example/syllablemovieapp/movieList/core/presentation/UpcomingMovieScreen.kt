@@ -40,7 +40,7 @@ else {
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            if (index >= movieState.upcomingMovieList.size - 1 && !movieState.isLoading){
+            if (index >= movieState.upcomingMovieList.lastIndex && !movieState.isLoading){
                 onEvent(MovieListEvent.Paginate(Category.POPULAR))
             }
 
