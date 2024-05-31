@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.syllablemovieapp.movieList.core.presentation.HomeScreen
+import com.example.syllablemovieapp.movieList.details.presentation.DetailsScreen
 import com.example.syllablemovieapp.movieList.util.Screen
 import com.example.syllablemovieapp.ui.theme.SyllableMovieAppTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -44,7 +45,7 @@ class MainActivity : ComponentActivity() {
                                 type = NavType.IntType
                             })
                         ){ navBackStackEntry ->  
-                     //       DetailsScreen()
+                            DetailsScreen()
                         }
                     }
                 }
