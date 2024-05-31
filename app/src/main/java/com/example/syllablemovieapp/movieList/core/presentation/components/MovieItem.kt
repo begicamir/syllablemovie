@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toBitmap
@@ -44,6 +45,7 @@ import coil.compose.AsyncImagePainter.State.Empty.painter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
+import com.example.syllablemovieapp.R
 import com.example.syllablemovieapp.movieList.data.remote.MovieApi
 import com.example.syllablemovieapp.movieList.domain.model.Movie
 import com.example.syllablemovieapp.movieList.util.RatingBar
@@ -84,20 +86,47 @@ fun MovieItem(
             }
     ) {
         if (imageState is AsyncImagePainter.State.Error) {
-            Box(
+            Image(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(6.dp)
-                    .height(256.dp)
-                    .clip(RoundedCornerShape(22.dp))
-                    .background(MaterialTheme.colorScheme.primaryContainer),
-                contentAlignment = Alignment.Center
+                    .height(250.dp)
+                    .clip(
+                        RoundedCornerShape(22.dp)
+                    ),
+                painter = painterResource(id = R.drawable.no_image),
+                contentDescription = movie.title,
+                contentScale = ContentScale.Crop
             )
-            {
-                Icon(
-                    imageVector = Icons.Rounded.ImageNotSupported,
-                    contentDescription = movie.title
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Text(
+                text = movie.title,
+                modifier = Modifier.padding(start = 26.dp, end = 8.dp),
+                color = Color.White,
+                maxLines = 1
+            )
+
+            Row (modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, bottom = 12.dp, top = 4.dp)){
+                RatingBar(
+                    starsModifier = Modifier.size(18.dp),
+                    rating = movie.vote_average / 2 ,
                 )
+
+
+                Text(
+                    text = movie.vote_average.toString().take(3),
+                    modifier = Modifier.padding(start = 26.dp, end = 8.dp),
+                    color = Color.White,
+                    maxLines = 1
+                )
+
+
+
+
             }
         }
 
